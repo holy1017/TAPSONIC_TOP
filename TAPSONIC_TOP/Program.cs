@@ -13,7 +13,7 @@ namespace TAPSONIC_TOP
 {
     class Program
     {
-        static int mt = 3;// 스킬 영역 크기 배율
+        static int mt = 4;// 스킬 영역 크기 배율
         static int ch1 = 15; // 스킬 표시 세로 범위
         static int ch2 = 5;
         static int ch = ch1 + ch2;//캐릭별 세로 크기
@@ -71,10 +71,23 @@ namespace TAPSONIC_TOP
 
             // 캐릭 목록
             List<Chra> cd = new List<Chra>();
-            cd.Add(new Chra ( "엘리10", Att.vocal, 18, 14 ));
-            cd.Add(new Chra ( "제시10", Att.vocal, 12, 13 ));
-            cd.Add(new Chra ( "셜리10", Att.dancer, 17, 10 ));
-            cd.Add(new Chra ( "루시퍼10", Att.session, 15, 14 ));
+            cd.Add(new Chra("엘리10", Att.vocal, 18, 14));
+            cd.Add(new Chra("제시10", Att.vocal, 12, 13));
+            cd.Add(new Chra("엘클리어10", Att.vocal, 18, 10));
+            cd.Add(new Chra("아리아10", Att.vocal, 16, 10));
+            cd.Add(new Chra("니콜10", Att.vocal, 15, 13));
+            cd.Add(new Chra("걸윙10", Att.vocal, 14, 10));
+            cd.Add(new Chra("셜리10", Att.dancer, 17, 10));
+            cd.Add(new Chra("라파엘10", Att.dancer, 16, 18));
+            cd.Add(new Chra("크라켄10", Att.dancer, 16, 10));
+            cd.Add(new Chra("호련10", Att.dancer, 15, 15));
+            cd.Add(new Chra("벨10", Att.dancer, 21, 10));
+            cd.Add(new Chra("루시퍼10", Att.session, 15, 14));
+            cd.Add(new Chra("트래셔10", Att.session, 19, 15));
+            cd.Add(new Chra("재규어10", Att.session, 15, 11));
+            cd.Add(new Chra("업튼10", Att.session, 18, 14));
+            cd.Add(new Chra("틴체르니10", Att.session, 17, 10));
+            cd.Add(new Chra("볼프강10", Att.session, 10, 9));
 
             // 1. Create a bitmap
             using (Bitmap bitmap = new Bitmap(tw+sw, ch * cd.Count, PixelFormat.Format32bppArgb))
@@ -97,8 +110,8 @@ namespace TAPSONIC_TOP
                     0,
                     ch2, ch * cd.Count); //line
 
+                // 캐릭마다 색 설정
                 cd.ForEach(delegate (Chra c) {
-                    // 캐릭마다 색 설정
                     switch (c.att)
                     {
                         case Att.dancer:
@@ -128,12 +141,31 @@ namespace TAPSONIC_TOP
                             c.on, ch1); //on
                     }
 
-                    // 마무리 그리기
-                    graphics.FillRectangle(b, 
+                    // 속성라인 그리기
+                    graphics.FillRectangle(b,
                         tw,
-                        20 * cnt+ch1,
+                        20 * cnt + ch1,
                         sw, ch2); //line
-                    graphics.DrawString(c.name, fontb, Brushes.Black, 0, 20 * cnt);
+
+                    // 10초단위 그리기 반복
+                    for (int i = tw + 9 * mt; i < sw + tw; i += 10 * mt)
+                    {
+                        graphics.FillRectangle(Brushes.White,
+                            i,
+                            20 * cnt + ch1,
+                            mt, ch2); //on
+                    }
+                    // 60초단위 그리기 반복
+                    for (int i = tw + 59 * mt; i < sw + tw; i += 60 * mt)
+                    {
+                        graphics.FillRectangle(Brushes.Black,
+                            i,
+                            20 * cnt + ch1,
+                            mt, ch2); //on
+                    }
+
+                    // 이름
+                    //graphics.DrawString(c.name, fontb, Brushes.Black, 0, 20 * cnt);
                     graphics.DrawString(c.name, fontf, Brushes.White, 0, 20 * cnt);
                     cnt++;
                 });
